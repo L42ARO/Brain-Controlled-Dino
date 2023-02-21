@@ -2,7 +2,7 @@ import cortex
 from cortex import Cortex
 from cortex import ERR_PROFILE_ACCESS_DENIED
 
-class LiveAdvance():
+class LiveCommand():
     """
     A class to show mental command data at live mode of trained profile.
     You can load a profile trained on EmotivBCI or via train.py example
@@ -281,7 +281,7 @@ def main():
     your_app_client_secret = '8nb3aqcFd0ZwUcLHNPI6JcUP3M2kIsuO8TIu0FscLXoZecmzKGvZ292ZPJmj68COg1PQhcXvugbrJ9pCRcDZy0x6h253rCb3t0J0x0OWj2Dmky6wgzXvQ0ImrnjtYVVH'
 
     # Init live advance
-    l = LiveAdvance(your_app_client_id, your_app_client_secret)
+    l = LiveCommand(your_app_client_id, your_app_client_secret)
 
     trained_profile_name = 'Alvaro' # Please set a trained profile name here
     l.start(trained_profile_name)
