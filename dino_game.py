@@ -1,8 +1,22 @@
 from ursina import *
 import random as r
+from live_commands import *
+import threading
+import time
+
+your_app_client_id = 'IgoNF2VyyqPkJ0nWqwir7slED8egiMs3H8RuznIo'
+your_app_client_secret = '8nb3aqcFd0ZwUcLHNPI6JcUP3M2kIsuO8TIu0FscLXoZecmzKGvZ292ZPJmj68COg1PQhcXvugbrJ9pCRcDZy0x6h253rCb3t0J0x0OWj2Dmky6wgzXvQ0ImrnjtYVVH'
+
+    # Init live advance
+l = LiveCommand(your_app_client_id, your_app_client_secret)
+
+trained_profile_name = 'Neo' # Please set a trained profile name here
+
+
+
 
 app = Ursina()
-window.fullscreen = True
+#window.fullscreen = True
 window.color = color.white
 
 
@@ -44,21 +58,24 @@ label = Text(
   position=(-0.5, 0.4)
 )
 points = 0
+start = 0
+jump = False
 
 def update():
-  global points
+  global points, l, start, dino, jump
   points += 1
-  label.text = f'Points: {points}'
+  label.text = f'Command: {l.currentCommand} Dino Y: {dino.y} Points: {points} Jump: {jump}'
   for ground in pair:
-    ground.x -= 6*time.dt
+    ground.x -= 4*time.dt
     if ground.x < -35:
       ground.x += 100
   for c in cacti:
-    c.x -= 6*time.dt
+    c.x -= 4*time.dt
   if dino.intersects().hit:
     dino.texture= 'assets\hit'
     application.pause()
-
+    l.c.close()
+  jumpCheck()
 
 sound = Audio(
   'assets\\beep',
@@ -66,9 +83,11 @@ sound = Audio(
 )
 
 
-def input(key):
-  if key == 'space':
-    if dino.y < 0.01:
+def jumpCheck():
+  global l, jump #<--------
+  if l.currentCommand == 'lift':#<--------
+    if dino.y < 0.01 and jump == False: #<--------
+      jump = True #<-----
       sound.play()
       dino.animate_y(
         2,
@@ -81,8 +100,22 @@ def input(key):
         delay=0.4,
         curve = curve.in_sine
       )
+  if jump==True and dino.y>1.9:
+    jump=False
 
 camera.orthographic = True
 camera.fov = 10
 
-app.run()
+def runGame():
+    print("Running game")
+    app.run()
+
+def runAPI():
+    global l, trained_profile_name
+    print("Running API")
+    l.start(trained_profile_name)
+
+t = threading.Thread(target=runAPI)
+t.start()
+time.sleep(2)
+runGame()

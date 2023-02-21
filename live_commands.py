@@ -2,7 +2,22 @@ import cortex
 from cortex import Cortex
 from cortex import ERR_PROFILE_ACCESS_DENIED
 
-class LiveAdvance():
+class LiveCommand():
+
+    def customCommandProcessing(self,data):
+        """
+        To handle mental ommand data emitted from Cortex
+        
+        Returns
+        -------
+        data: dictionary
+             the format such as {'action': 'neutral', 'power': 0.0, 'time': 1590736942.8479}
+        """
+        self.currentCommand = data['action']
+        #print(self.currentCommand)
+
+
+
     """
     A class to show mental command data at live mode of trained profile.
     You can load a profile trained on EmotivBCI or via train.py example
@@ -37,6 +52,9 @@ class LiveAdvance():
         self.c.bind(get_mc_active_action_done=self.on_get_mc_active_action_done)
         self.c.bind(mc_action_sensitivity_done=self.on_mc_action_sensitivity_done)
         self.c.bind(inform_error=self.on_inform_error)
+        
+        #CUSTOM VARIABLES
+        self.currentCommand = 'neutral'
 
     def start(self, profile_name, headsetId=''):
         """
@@ -217,16 +235,8 @@ class LiveAdvance():
         self.c.sub_request(stream)
 
     def on_new_com_data(self, *args, **kwargs):
-        """
-        To handle mental command data emitted from Cortex
-        
-        Returns
-        -------
-        data: dictionary
-             the format such as {'action': 'neutral', 'power': 0.0, 'time': 1590736942.8479}
-        """
         data = kwargs.get('data')
-        print('mc data: {}'.format(data))
+        self.customCommandProcessing(data)
 
     def on_get_mc_active_action_done(self, *args, **kwargs):
         data = kwargs.get('data')
@@ -281,7 +291,7 @@ def main():
     your_app_client_secret = '8nb3aqcFd0ZwUcLHNPI6JcUP3M2kIsuO8TIu0FscLXoZecmzKGvZ292ZPJmj68COg1PQhcXvugbrJ9pCRcDZy0x6h253rCb3t0J0x0OWj2Dmky6wgzXvQ0ImrnjtYVVH'
 
     # Init live advance
-    l = LiveAdvance(your_app_client_id, your_app_client_secret)
+    l = LiveCommand(your_app_client_id, your_app_client_secret)
 
     trained_profile_name = 'Alvaro' # Please set a trained profile name here
     l.start(trained_profile_name)
