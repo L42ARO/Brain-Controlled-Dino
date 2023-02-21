@@ -1,5 +1,6 @@
 import cortex
 from cortex import Cortex
+from cortex import ERR_PROFILE_ACCESS_DENIED
 
 class LiveAdvance():
     """
@@ -276,13 +277,13 @@ class LiveAdvance():
 def main():
 
     # Please fill your application clientId and clientSecret before running script
-    your_app_client_id = ''
-    your_app_client_secret = ''
+    your_app_client_id = 'IgoNF2VyyqPkJ0nWqwir7slED8egiMs3H8RuznIo'
+    your_app_client_secret = '8nb3aqcFd0ZwUcLHNPI6JcUP3M2kIsuO8TIu0FscLXoZecmzKGvZ292ZPJmj68COg1PQhcXvugbrJ9pCRcDZy0x6h253rCb3t0J0x0OWj2Dmky6wgzXvQ0ImrnjtYVVH'
 
     # Init live advance
     l = LiveAdvance(your_app_client_id, your_app_client_secret)
 
-    trained_profile_name = '' # Please set a trained profile name here
+    trained_profile_name = 'Alvaro' # Please set a trained profile name here
     l.start(trained_profile_name)
 
 if __name__ =='__main__':
