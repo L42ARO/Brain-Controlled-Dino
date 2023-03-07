@@ -4,8 +4,8 @@ from live_commands import *
 import threading
 import time
 
-your_app_client_id = 'IgoNF2VyyqPkJ0nWqwir7slED8egiMs3H8RuznIo'
-your_app_client_secret = '8nb3aqcFd0ZwUcLHNPI6JcUP3M2kIsuO8TIu0FscLXoZecmzKGvZ292ZPJmj68COg1PQhcXvugbrJ9pCRcDZy0x6h253rCb3t0J0x0OWj2Dmky6wgzXvQ0ImrnjtYVVH'
+your_app_client_id = ''
+your_app_client_secret = ''
 
     # Init live advance
 l = LiveCommand(your_app_client_id, your_app_client_secret)
