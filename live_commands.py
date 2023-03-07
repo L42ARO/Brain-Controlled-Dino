@@ -3,6 +3,10 @@ from cortex import Cortex
 from cortex import ERR_PROFILE_ACCESS_DENIED
 
 class LiveCommand():
+
+    def customCommandProcessing(self, data):
+        self.currentCommand = data['action']
+        #print(self.currentCommand)
     """
     A class to show mental command data at live mode of trained profile.
     You can load a profile trained on EmotivBCI or via train.py example
@@ -37,6 +41,8 @@ class LiveCommand():
         self.c.bind(get_mc_active_action_done=self.on_get_mc_active_action_done)
         self.c.bind(mc_action_sensitivity_done=self.on_mc_action_sensitivity_done)
         self.c.bind(inform_error=self.on_inform_error)
+
+        self.currentCommand = 'netural'
 
     def start(self, profile_name, headsetId=''):
         """
@@ -226,7 +232,8 @@ class LiveCommand():
              the format such as {'action': 'neutral', 'power': 0.0, 'time': 1590736942.8479}
         """
         data = kwargs.get('data')
-        print('mc data: {}'.format(data))
+        self.customCommandProcessing(data)
+        #print('mc data: {}'.format(data))
 
     def on_get_mc_active_action_done(self, *args, **kwargs):
         data = kwargs.get('data')
